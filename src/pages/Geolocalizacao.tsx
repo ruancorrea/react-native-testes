@@ -52,6 +52,8 @@ function computeDistanceBtwTwoPoints(attraction: IAttractionLocationProps, myLoc
 }
 
 const Geolocation = () => { 
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
     const theobrandao: IAttractionLocationProps = {
         latitude: -9.669292,
         longitude: -35.732594,
@@ -84,6 +86,9 @@ const Geolocation = () => {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 }
+                setLatitude(position.coords.latitude);
+                setLongitude(position.coords.longitude);
+                
                 const attraction = computeDistanceBtwTwoPoints(theobrandao, userLocation);
                 const distance = {
                     distance: attraction.distance,
@@ -92,7 +97,7 @@ const Geolocation = () => {
                 setUserDistance(distance);    
             },
             (error) =>{
-                console.log("ERROR!!!! " + error.message) // só pra testar
+                console.log("ERROR! " + error.message) // só pra testar
             },
             { // options
                 enableHighAccuracy: true,
@@ -113,18 +118,14 @@ const Geolocation = () => {
             {
                 userDistance.distance_unit
                 ?
-               <Title
-               accessible
-               >
+               <Title accessible>
                    Você está a {userDistance.distance}{userDistance.distance_unit} de distância do Museu Theo Brandão.
                </Title>
                :
-               <Title
-               accessible
-               >
-                   Carregando
-               </Title>
+               <Title accessible>Carregando...</Title>
             }
+            <Title>Latitude: {latitude}</Title>
+            <Title>Longitude: {longitude}</Title>
         </Container>
     )
 }
