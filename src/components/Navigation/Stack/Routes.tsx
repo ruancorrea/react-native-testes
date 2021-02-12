@@ -30,13 +30,19 @@ export const HomeScreen = ({navigation, route} : StackNavProps<"Home">) => {
     return (
       <Container>
           <Button
-              title="Github API"
-              onPress= { () => navigation.navigate('GithubAPI')}
+            //accessibilityRole = "button" 
+            accessibilityTraits = "button"
+            accessibilityLabel="Github API"
+            title="Github API"
+            onPress= { () => navigation.navigate('GithubAPI')}
           />
   
           <Button
-              title="Geolocation"
-              onPress= { () => navigation.navigate('Geolocation')}
+            //accessibilityRole = "button"
+            accessibilityTraits = "button"
+            accessibilityLabel="Geolocation"
+            title="Geolocation"
+            onPress= { () => navigation.navigate('Geolocation')}
           />
       </Container>
   )

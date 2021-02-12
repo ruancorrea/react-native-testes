@@ -76,7 +76,7 @@ const Geolocation = () => {
 
         const unity = unities[userDistance.distance_unit];
         Tts.setDefaultLanguage('pt-BR');
-        Tts.speak(`Museu Theo Brandão à ${userDistance.distance} ${unity}`);
+        Tts.speak(`Museu Theo Brandão à ${userDistance.distance} ${unity}`); //
     }
 
     useEffect(() =>{
