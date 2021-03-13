@@ -2,9 +2,8 @@ import React , { useState, useEffect } from 'react';
 import apiTatu from "../services/apiTatu";
 import infoTatuConteudos from "../components/MusicPlayer/infoTatuConteudos";
 import { Container,List } from '../components/Repository/RepositoryStyle' //'./style';
-import { ContainerRepository, Name, Description, Stats, Stat, StatCount } from '../components/Repository/styles';
+import { ContainerRepository, Name, Description } from '../components/Repository/styles';
 import { StackNavProps, StackParams } from '../components/Navigation/Stack/Routes';
-import { TouchableHighlight } from 'react-native';
 import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
 import { useNavigation } from '@react-navigation/core';
 

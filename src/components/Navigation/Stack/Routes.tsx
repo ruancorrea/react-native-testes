@@ -13,7 +13,7 @@ import AtracoesTatu from '../../../pages/AtracoesTatu';
 import ConteudosTatu from '../../../pages/ConteudosTatu';
 import MusicPlayer from '../../../pages/MusicPlayer';
 
-import infoTatuConteudos from '../../MusicPlayer/infoTatuConteudos';
+import infoTatuConteudos from '../../InfoTatu/infoTatuConteudos';
 
 interface RoutesProps { }
 

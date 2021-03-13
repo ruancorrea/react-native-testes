@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { RouteProp, useNavigation } from "@react-navigation/native";
-import { View, Text, Button, Image } from 'react-native';
+import { View, Text, Button, Image, TouchableHighlight } from 'react-native';
 import { StackNavProps, StackParams } from '../components/Navigation/Stack/Routes';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {useTrackPlayerEvents, useTrackPlayerProgress} from 'react-native-track-player/lib/hooks';
 import TrackPlayer, {TrackPlayerEvents,STATE_PLAYING} from 'react-native-track-player';
 import stylesPlayer from '../components/MusicPlayer/stylesPlayer';
 import Slider from '@react-native-community/slider';
+import { Stats } from '../components/Repository/styles';
 
 import {AppRegistry} from 'react-native';
 import {name as appName} from '../../app.json';
@@ -20,6 +21,7 @@ function MusicPlayer({route} : StackNavProps<"MusicPlayer">) {
     const [sliderValue, setSliderValue] = useState(0);
     const [isSeeking, setIsSeeking] = useState(false);
     const {position, duration} = useTrackPlayerProgress(250);
+    const [velocidade, setVelocidade] = useState(1); // TrackPlayer.setRate()
     const data = route.params.data
 
     const trackPlayerInit = async () => {
@@ -69,6 +71,7 @@ function MusicPlayer({route} : StackNavProps<"MusicPlayer">) {
         setIsPlaying(false);
       }
     };
+
     const slidingStarted = () => {
       setIsSeeking(true);
     };
@@ -85,9 +88,23 @@ function MusicPlayer({route} : StackNavProps<"MusicPlayer">) {
         setIsPlaying(false);
     }
     });
+
+    function truncator(numToTruncate: number , intDecimalPlaces: number) {
+      var numPower = Math.pow(10, intDecimalPlaces); // "numPowerConverter" might be better
+      return ~~(numToTruncate * numPower)/numPower;
+    }
     
     return (
         <View style={stylesPlayer.mainContainer}>
+          <TouchableHighlight
+            onPress={() => {
+              TrackPlayer.stop();
+              navigation.goBack();
+              }}
+              style = {{marginLeft: '2%', width: 25, marginTop: '1%'}}
+          >
+            <Icon name="angle-double-left" size={38} color="#333" />   
+          </TouchableHighlight>
         <View style={stylesPlayer.imageContainer}>
           <Image
             source={{
@@ -100,6 +117,7 @@ function MusicPlayer({route} : StackNavProps<"MusicPlayer">) {
         <View style={stylesPlayer.detailsContainer}>
           <Text style={stylesPlayer.songTitle}>{data.nome}</Text>
           <Text style={stylesPlayer.artist}>{data.autor}</Text>
+          <Text style={stylesPlayer.artist}>{truncator(velocidade,1)}x</Text>
         </View>
         <View style={stylesPlayer.controlsContainer}>
           <Slider
@@ -113,17 +131,48 @@ function MusicPlayer({route} : StackNavProps<"MusicPlayer">) {
             onSlidingComplete={slidingCompleted}
             thumbTintColor="#000"
           />
-          <Button
-            title={isPlaying ? 'Pause' : 'Play'}
-            onPress={onButtonPressed}
-            style={stylesPlayer.playButton}
-            disabled={!isTrackPlayerInit}
-            color="#000000"
-          />
-            <Button onPress={() => {
-                TrackPlayer.remove("1");
-                navigation.goBack();
-                }} title="Back" /> 
+          <Stats
+          style={{marginLeft:'33%'}}>
+            <TouchableHighlight
+              onPress={() => { 
+                if(velocidade > 0.5){
+                  setVelocidade(velocidade-0.1)
+                  TrackPlayer.setRate(velocidade)
+                }
+              }}
+              style={{marginRight:'10%'}}
+              disabled={!isTrackPlayerInit}
+              color="#000000"
+              >
+                <Icon name="fast-backward" size={30} color="#333" />
+            </TouchableHighlight>
+
+            <TouchableHighlight
+              onPress={onButtonPressed}
+              disabled={!isTrackPlayerInit}
+              color="#000000"
+              >
+                {isPlaying
+                    ?
+                      <Icon name="pause" size={30} color="#333" />
+                      :
+                      <Icon name="play" size={30} color="#333" />
+                  }
+              </TouchableHighlight>
+              <TouchableHighlight
+                onPress={() => {
+                  if(velocidade <2){
+                    setVelocidade(velocidade+0.1)
+                    TrackPlayer.setRate(velocidade)
+                  }
+                }}
+                style={{marginLeft:'10%'}}
+                disabled={!isTrackPlayerInit}
+                color="#000000"
+                >
+                <Icon name="fast-forward" size={30} color="#333" />
+              </TouchableHighlight>
+          </Stats>
         </View>
       </View>
     )

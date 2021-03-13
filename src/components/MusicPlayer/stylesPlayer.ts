@@ -36,7 +36,8 @@ const stylesPlayer = StyleSheet.create({
    fontSize: 14,
  },
  playButton: {
-   fontSize: 20,
+   marginLeft: '47%',
+   width: 30
  }
 });
  
