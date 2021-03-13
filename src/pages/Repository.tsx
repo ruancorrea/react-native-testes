@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-import api from '../services/api' //'./src/services/api';
-import infoRepository from '../components/Repository/infoRepository' //'./src/components/Repository/infoRepository';
-
-import { Keyboard } from 'react-native';
-
+import api from '../services/api';
+import infoRepository from '../components/Repository/infoRepository';
+import { Keyboard, Linking } from 'react-native';
 import { Container, Title, Form, Input, Submit, List } from '../components/Repository/RepositoryStyle' //'./style';
-
-import { Linking } from 'react-native'
 import { ContainerRepository, Name, Description, Stats, Stat, StatCount } from '../components/Repository/styles';
 import Tts from 'react-native-tts';
 
@@ -44,7 +39,6 @@ export default function RepositoryAPI() {
   const [input, setInput] = useState('');
   const [error, setError] = useState(false);
   const [repositorios, setRepositorios] = useState<infoRepository[]>([]);
-  
 
   async function SearchUserGithub(){
     try {
@@ -75,7 +69,6 @@ export default function RepositoryAPI() {
               <Input
                 accessible={true}
                 accessibilityLabel="Campo de entrada de dados"
-              
                 value={input}
                 error={error}
                 onChangeText={setInput}
@@ -94,6 +87,7 @@ export default function RepositoryAPI() {
                 <Icon name="search" size={22} color= "#FFF" />
               </Submit>
           </Form>
+
           <Title>Repositórios</Title>
 
            <List

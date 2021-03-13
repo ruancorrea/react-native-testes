@@ -110,7 +110,6 @@ def enableProguardInReleaseBuilds = false
  * this variant is about 6MiB larger per architecture than default.
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
-
 /**
  * Whether to enable the Hermes VM.
  *
@@ -131,6 +130,7 @@ android {
     defaultConfig {
         applicationId "com.tsapptatu"
         minSdkVersion rootProject.ext.minSdkVersion
+        multiDexEnabled true
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
