@@ -11,10 +11,7 @@ import Repository from '../../../pages/Repository';
 import Geolocation from '../../../pages/Geolocalizacao';
 import AtracoesTatu from '../../../pages/AtracoesTatu';
 import ConteudosTatu from '../../../pages/ConteudosTatu';
-import Modal from '../../../pages/Modal'
-import ModalScreen from '../../../pages/Modal' 
-
-import HomeScreenDois from '../../../pages/Modal' 
+import MusicPlayer from '../../../pages/MusicPlayer';
 
 import infoTatuConteudos from '../../MusicPlayer/infoTatuConteudos';
 
@@ -28,15 +25,9 @@ export type StackParams = {
     ConteudosTatu: {
         idAtracao: number,
     };
-    Modal: {
+    MusicPlayer: {
         data: infoTatuConteudos,
     };
-    Main: undefined;
-    Natasha: undefined;
-    MyModal: {
-        data: infoTatuConteudos,
-    };
-    Root: undefined; 
 };
 
 export type StackNavProps<T extends keyof StackParams> = {
@@ -86,8 +77,6 @@ const AppDrawer = () =>{
             <Drawer.Screen name="Geolocation" component = {Geolocation} />
             <Drawer.Screen name="AtracoesTatu" component = {AtracoesTatu} />
             <Drawer.Screen name="ConteudosTatu" component = {ConteudosTatu} />
-            <Drawer.Screen name="Modal" component = {Modal} />
-
         </Drawer.Navigator>
     )
 }
@@ -112,42 +101,11 @@ export const Routes = ({} : RoutesProps) => {
             })}
             >  
                 <Stack.Screen name="Home" component={AppDrawer} />
-                <Stack.Screen
-                    name="Main"
-                    component={MainStackScreen}
-                    options={{ headerShown: false }} />
+                <Stack.Screen name="MusicPlayer" component = {MusicPlayer} options={{ headerShown: false }} />
 
-                <Stack.Screen name="MyModal" component={ModalScreen} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     );
 };
-
-
-
-const MainStack = createStackNavigator<StackParams>();
-const RootStack = createStackNavigator<StackParams>();
-
-function MainStackScreen({ route } : StackNavProps<"Main">) {
-    return (
-        <MainStack.Navigator>
-        <MainStack.Screen name="Natasha" component={HomeScreenDois} options={{ headerShown: false }}/>
-        </MainStack.Navigator>
-    );
-}
-
-export function RootStackScreen({ route } : StackNavProps<"Main">) {
-    return (
-      <RootStack.Navigator mode="modal">
-        <RootStack.Screen
-          name="Main"
-          component={MainStackScreen}
-          options={{ headerShown: false }}
-        />
-        <RootStack.Screen name="MyModal" component={ModalScreen}
-         options={{ headerShown: false }} />
-      </RootStack.Navigator>
-    );
-}
 
 export default Routes;
