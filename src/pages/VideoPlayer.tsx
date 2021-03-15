@@ -32,6 +32,7 @@ export default function VideoPlay({route, navigation} : StackNavProps<"VideoPlay
             <Icon name="angle-double-left" size={38} color="#333" />   
           </TouchableHighlight>
             <View style={stylesPlayer.detailsContainer}>
+                <Text style={stylesPlayer.songTitle}>Video Libras</Text>
                 <Text style={stylesPlayer.songTitle}>{data.nome}</Text>
                 <Text style={stylesPlayer.artist}>{data.autor}</Text>
             </View>
