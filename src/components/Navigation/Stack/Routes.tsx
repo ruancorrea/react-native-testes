@@ -12,7 +12,7 @@ import Geolocation from '../../../pages/Geolocalizacao';
 import AtracoesTatu from '../../../pages/AtracoesTatu';
 import ConteudosTatu from '../../../pages/ConteudosTatu';
 import MusicPlayer from '../../../pages/MusicPlayer';
-
+import VideoPlayer from '../../../pages/VideoPlayer';
 import infoTatuConteudos from '../../InfoTatu/infoTatuConteudos';
 
 interface RoutesProps { }
@@ -27,7 +27,12 @@ export type StackParams = {
     };
     MusicPlayer: {
         data: infoTatuConteudos,
+        url: string,
+        type: string
     };
+    VideoPlayer: {
+        data: infoTatuConteudos,
+    }
 };
 
 export type StackNavProps<T extends keyof StackParams> = {
@@ -101,8 +106,8 @@ export const Routes = ({} : RoutesProps) => {
             })}
             >  
                 <Stack.Screen name="Home" component={AppDrawer} />
+                <Stack.Screen name="VideoPlayer" component = {VideoPlayer} options={{ headerShown: false }} />
                 <Stack.Screen name="MusicPlayer" component = {MusicPlayer} options={{ headerShown: false }} />
-
             </Stack.Navigator>
         </NavigationContainer>
     );

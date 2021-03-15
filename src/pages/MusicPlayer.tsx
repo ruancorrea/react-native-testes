@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { RouteProp, useNavigation } from "@react-navigation/native";
-import { View, Text, Button, Image, TouchableHighlight } from 'react-native';
-import { StackNavProps, StackParams } from '../components/Navigation/Stack/Routes';
+import { StackNavProps } from '../components/Navigation/Stack/Routes';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useTrackPlayerEvents, useTrackPlayerProgress} from 'react-native-track-player/lib/hooks';
 import TrackPlayer, {TrackPlayerEvents,STATE_PLAYING} from 'react-native-track-player';
 import stylesPlayer from '../components/MusicPlayer/stylesPlayer';
 import Slider from '@react-native-community/slider';
 import { Stats } from '../components/Repository/styles';
+import { View, Text, AppRegistry, Image, TouchableHighlight } from 'react-native';
 
-import {AppRegistry} from 'react-native';
 import {name as appName} from '../../app.json';
 AppRegistry.registerComponent(appName, () => MusicPlayer);
 TrackPlayer.registerPlaybackService(() => require('../services/mscplayer'));
@@ -23,6 +22,7 @@ function MusicPlayer({route} : StackNavProps<"MusicPlayer">) {
     const {position, duration} = useTrackPlayerProgress(250);
     const [velocidade, setVelocidade] = useState(1); // TrackPlayer.setRate()
     const data = route.params.data
+    const data_url = route.params.url
 
     const trackPlayerInit = async () => {
         await TrackPlayer.setupPlayer();
@@ -37,10 +37,10 @@ function MusicPlayer({route} : StackNavProps<"MusicPlayer">) {
         });
         await TrackPlayer.add({
           id: "1",
-          url: data.audio_desc,
+          url: data_url,
           type: 'default',
           title: data.nome,
-          album: "tatu",
+          album: route.params.type,
           artist: data.autor,
           artwork: data.imagem_conteudo[0].thumb,
         });
@@ -95,7 +95,7 @@ function MusicPlayer({route} : StackNavProps<"MusicPlayer">) {
     }
     
     return (
-        <View style={stylesPlayer.mainContainer}>
+        <View style={stylesPlayer.mainContainer} accessible={true}>
           <TouchableHighlight
             onPress={() => {
               TrackPlayer.stop();
@@ -105,6 +105,9 @@ function MusicPlayer({route} : StackNavProps<"MusicPlayer">) {
           >
             <Icon name="angle-double-left" size={38} color="#333" />   
           </TouchableHighlight>
+        <View style={stylesPlayer.detailsContainer}>
+          <Text style={stylesPlayer.songTitle}>{route.params.type}</Text>
+        </View>
         <View style={stylesPlayer.imageContainer}>
           <Image
             source={{
@@ -150,7 +153,7 @@ function MusicPlayer({route} : StackNavProps<"MusicPlayer">) {
             <TouchableHighlight
               onPress={onButtonPressed}
               disabled={!isTrackPlayerInit}
-              color="#000000"
+              color = "#000000"
               >
                 {isPlaying
                     ?
